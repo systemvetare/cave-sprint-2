@@ -39,7 +39,7 @@ public class CaveInitializer {
     }
     return instance;
   }
-  
+
   private static class DbRoom{
     private int id;
     private int north;
@@ -58,35 +58,35 @@ public class CaveInitializer {
       this.text  = text;
       this.thing = thing;
     }
-    
+
     public int north() {
       return north;
     }
-    
+
     public int south() {
       return south;
     }
-    
+
     public int east() {
       return east;
     }
-    
+
     public int west() {
       return west;
     }
-    
+
     public String text() {
       return text;
     }
-    
+
     public void setThing(Thing thing) {
       this.thing = thing;
     }
-    
+
     public Thing thing() {
       return thing;
     }
-    
+
     @Override
     public String toString() {
       return new StringBuilder("Room ID:")
@@ -147,7 +147,7 @@ public class CaveInitializer {
         } else {
           line = new StringBuilder(rs.getString("line"));
         }
-        
+
         room = new DbRoom(currentRoom,
                           rs.getInt("north"),
                           rs.getInt("south"),
@@ -166,7 +166,7 @@ public class CaveInitializer {
     buildCave(rooms);
     addRules();
   }
-  
+
   /*
    * Strategy: create a map Integer,Room with the rooms
    * from the map Integer,DbRoom but without any exits.
@@ -175,7 +175,7 @@ public class CaveInitializer {
    * the exits. All Rooms now exist in the cave map.
    * So we can set the exits of the Rooms in cave like this:
    * currentRoom.setDirection(Room.NORTH, cave.get(currentDBRoom.north()));
-   * 
+   *
    * It can be done in several steps of course, but the idea is
    * that we iterate over all the IDs in the map of DbRoom
    * references, and use the fact that we have the cave map
@@ -186,13 +186,13 @@ public class CaveInitializer {
    * With this information we can actually set the exits
    * of the actual Room to a reference to the correct
    * actual Rooms.
-   * 
+   *
    * If the rooms map of DbRoom references look like this:
 {1=Room ID:1 - north: 5, south: 4, east: 3, west: 2 You are standing at the end of a road. Thing: null,
  2=Room ID:2 - north: 0, south: 5, east: 1, west: 0 - You have walked up a hill. Thing: null,
  3=Room ID:3 - north: 6, south: 6, east: 6, west: 1 - You are inside a building. Thing: Skeleton Key
  .....}
- 
+
  * Then we can set the cave's Room with id 1 to have the Room in
  * the cave with id 5 as the North room, and so on.
  * We translate the DbRoom's ID to an actual Room.
@@ -214,7 +214,7 @@ public class CaveInitializer {
         things.add(currentDbRoom.thing());
       }
       currentRoom = new Room(currentDbRoom.text(),
-                             null, null, null, null,                             
+                             null, null, null, null,
                              things);
       cave.put(roomId, currentRoom);
     }
@@ -237,7 +237,7 @@ public class CaveInitializer {
       Room westRoom = cave.get(room.west());
       if (westRoom != null) {
         thisRoom.setConnectingRoom(Room.Direction.WEST, westRoom);
-      }    
+      }
     }
   }
 
@@ -277,7 +277,6 @@ public class CaveInitializer {
                         return true;
                       }
                     });
-    
   }
-  
+
 }
