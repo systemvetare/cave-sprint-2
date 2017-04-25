@@ -1,0 +1,20 @@
+ThingRuleTest.java
+javac se/itu/game/test/ThingRuleTest.java && java -cp ".;sqlite-jdbc-3.16.1.jar" -ea se.itu.game.test.ThingRuleTest
+
+ThingTests.java
+javac se/itu/game/test/ThingTests.java && java -cp ".;sqlite-jdbc-3.16.1.jar" -ea se.itu.game.test.ThingTests
+
+TestPlayer.java
+javac se/itu/game/test/TestPlayer.java && java -cp ".;sqlite-jdbc-3.16.1.jar" -ea se.itu.game.test.TestPlayer
+
+TestRoom.java
+javac se/itu/game/test/TestRoom.java && java -cp ".;sqlite-jdbc-3.16.1.jar" -ea se.itu.game.test.TestRoom
+
+InitTest.java
+javac se/itu/game/test/InitTest.java && java -cp ".;sqlite-jdbc-3.16.1.jar" -ea se.itu.game.test.InitTest
+
+NavigationTests.java
+javac se/itu/game/test/NavigationTests.java && java -cp ".;sqlite-jdbc-3.16.1.jar" -ea se.itu.game.test.NavigationTests
+
+
+
