@@ -1,9 +1,6 @@
 package se.itu.game.gui;
 
-import static se.itu.game.cave.Room.Direction;
-
 import se.itu.game.cave.Player;
-import se.itu.game.cave.Room;
 import se.itu.game.cave.Thing;
 import se.itu.game.cave.init.CaveInitializer;
 import se.itu.game.cave.IllegalMoveException;
@@ -16,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import javax.swing.*;
+
+import static se.itu.game.cave.Room.Direction;
 
 public class MainFrame {
   private JFrame mainFrame;
@@ -40,7 +39,7 @@ public class MainFrame {
   private JPanel thingsPanel;
   private JLabel inventoryLabel;
   private JLabel thingsLabel;
-  private Map<Room.Direction, JButton> buttonMap;
+  private Map<Direction, JButton> buttonMap;
 
   private boolean debug;
 

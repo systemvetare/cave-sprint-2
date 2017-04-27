@@ -8,7 +8,7 @@ import se.itu.game.cave.init.Things;
 
 import static se.itu.game.test.TestUtils.START_ROOM_DESCR;
 import static se.itu.game.test.TestUtils.EAST_ROOM_DESCR;
-import static se.itu.game.test.TestUtils.WEST_ROOM_DESCR; 
+import static se.itu.game.test.TestUtils.WEST_ROOM_DESCR;
 import static se.itu.game.test.TestUtils.NORTH_ROOM_DESCR;
 import static se.itu.game.test.TestUtils.SOUTH_4_ROOM_DESCR;
 
@@ -17,12 +17,15 @@ import static se.itu.game.cave.Room.Direction.EAST;
 import static se.itu.game.cave.Room.Direction.SOUTH;
 import static se.itu.game.cave.Room.Direction.WEST;
 
+import se.itu.game.cave.IllegalMoveException;
+import se.itu.game.cave.RuleViolationException;
+
 public class InitTest {
 
   static {
     CaveInitializer.getInstance().initAll();
   }
-  
+
   private static Player player;
   private static final Thing skeletonKey = Things.get("Skeleton Key");
   private static final Thing cage = Things.get("Cage");
@@ -45,9 +48,11 @@ public class InitTest {
         + " player's state: " + player;
     } catch (IllegalArgumentException iae) {
       ; // Expected!
+    } catch (IllegalMoveException ime) {
+      ; // Expected!
     }
   }
-  
+
   public void testI1() {
     /*
       Go east, verify room desc
@@ -57,29 +62,61 @@ public class InitTest {
       go west, verify room has Cage
       pick up the Cage, verify inventory + room things
      */
-    player.go(EAST);
+
+    try{
+      player.go(EAST);
+    }
+    catch(IllegalMoveException e){
+     System.out.println("Bad direction");
+    }
     assert player.currentRoom().description().startsWith(EAST_ROOM_DESCR)
       : "East from first room failed. Player's room: "
       + player.currentRoom();
-    player.takeThing(skeletonKey);
+    try{
+      player.takeThing(skeletonKey);
+    }
+    catch(RuleViolationException e){
+      System.out.println("Violated a rule");
+    }
     assert player.inventory().contains(skeletonKey)
       : "Player couldn't take " + skeletonKey + " room: "
       + player.currentRoom();
-    player.go(WEST);
+    try{
+      player.go(WEST);
+    }
+    catch(IllegalMoveException e){
+     System.out.println("Bad direction");
+    }
+
     assert player.currentRoom().description().startsWith(START_ROOM_DESCR)
       : "West from east room failed. Player's room: "
       + player.currentRoom();
     for (int i = 0; i < 4; i++) {
-      player.go(SOUTH);
+      try{
+        player.go(SOUTH);
+      }
+      catch(IllegalMoveException e){
+       System.out.println("Bad direction");
+      }
     }
     assert player.currentRoom().description().startsWith(SOUTH_4_ROOM_DESCR)
       : "South x 4 from first room failed. Player's room: "
       + player.currentRoom();
-    player.go(WEST);
+    try{
+      player.go(WEST);
+    }
+    catch(IllegalMoveException e){
+     System.out.println("Bad direction");
+    }
     assert player.currentRoom().things().contains(cage)
       : "Cage room didn't have cage. Player's room: "
       + player.currentRoom();
-    player.takeThing(cage);
+    try{
+      player.takeThing(cage);
+    }
+    catch(RuleViolationException e){
+      System.out.println("Violated a rule");
+    }
     assert player.inventory().contains(cage)
       : "Player didn't have cage after picking it up."
       + " Player: " + player;
@@ -87,7 +124,7 @@ public class InitTest {
       : "Room still has cage after player picking it up."
       + " Player's room: " + player.currentRoom();
   }
-  
+
   public static void main(String[] args) {
     System.out.println("==Running test for the CaveInitializer class==");
     System.out.println("Running I1 (move around, pick up key):");
@@ -98,5 +135,5 @@ public class InitTest {
     test.testI2();
     System.out.println("I2 passed, illegal argument caught.");
   }
-  
+
 }
